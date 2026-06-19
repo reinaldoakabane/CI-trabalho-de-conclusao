@@ -10,7 +10,7 @@ on:
     workflow_dispatch:
 
     schedule:
-      - cron: '0 3 * * 5' # 00:00 - meia-noite de sexta-feira no Brasil
+      - cron: '5 16 * * *' # 13:05 todos os dias em São Paulo (UTC-3)
 
     push:
       branches:
