@@ -1,0 +1,50 @@
+# Pipeline de Integração Contínua
+
+# Nome da pipeline
+name: 'Pipeline da atividade final'
+
+# Gatilhos / triggers - regras de disparo
+
+# Gatilho manual = workflow dispatch
+on:
+    workflow_dispatch:
+
+    schedule:
+      - cron: '0 3 * * 5' # 00:00 - meia-noite de sexta-feira no Brasil
+
+    push:
+      branches:
+        - master    
+
+# Tarefas dento da pipeline = jobs
+jobs:
+    # Nome do Job
+    unit-tests:
+        # Maquina onde o job vai rodar
+        runs-on: ubuntu-latest
+
+        # Passos do job
+        steps:
+            # Clone do projeto
+            - uses: actions/checkout@v4
+
+            # Instalação do node
+            - uses: actions/setup-node@v4
+              with:
+                node-version: 24.x
+
+            # Instalação das dependencias
+            - name: Instalando dependencias
+              run: npm ci
+
+            #Executar os testes unitarios
+            - name: Executando testes unitarios
+              run: npm test
+
+            # Artifacts da pipeline
+            - name: Upload report
+              uses: actions/upload-artifact@v4
+              if: always() # Mesmo se falhar o relatório ainda é salvo
+              with:
+                name: mochawesome-report
+                path: mochawesome-report/   
