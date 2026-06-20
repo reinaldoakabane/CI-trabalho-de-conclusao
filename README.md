@@ -1,10 +1,10 @@
-# Pipeline de Integração Contínua com GitHub Actions e Mocha
+# Pipeline de Integração Contínua com GitHub Actions, Mocha e Mochawesome para geração de relatórios
 
 ## Objetivo
 
-Este projeto implementa uma pipeline de Integração Contínua (CI) utilizando GitHub Actions para execução de testes automatizados com Mocha.
+Este projeto implementa uma pipeline de Integração Contínua (CI) utilizando GitHub Actions para execução de testes automatizados com Mocha e utilização do Mochaawesome para geração de relatórios.
 
-A pipeline foi configurada para executar testes unitários e gerar relatórios automaticamente a cada execução.
+A pipeline foi configurada para executar os testes unitários de um projeto desenvolvido em outra disciplina da pós-graduação e gerar relatórios automaticamente a cada execução.
 
 ---
 
@@ -19,7 +19,7 @@ A pipeline foi configurada para executar testes unitários e gerar relatórios a
 
 ## Solução implementada
 
-A pipeline foi criada utilizando GitHub Actions e executa automaticamente os testes do projeto em diferentes cenários.
+A pipeline foi criada utilizando GitHub Actions e executa automaticamente os testes do projeto em três cenários de pipeline diferentes.
 
 ### Gatilhos configurados
 
@@ -29,7 +29,7 @@ A pipeline é executada quando:
 - É executada manualmente (workflow_dispatch)
 - É executada de forma agendada (schedule)
 
-O agendamento foi configurado para execução semanal às 00:00 (horário de Brasília convertido para UTC).
+O agendamento foi configurado via cron (em UTC) para execução diária às 13:05 no horário de São Paulo (UTC-3)
 
 ---
 
@@ -37,20 +37,20 @@ O agendamento foi configurado para execução semanal às 00:00 (horário de Bra
 
 A execução segue os seguintes passos:
 
-1. Checkout do código do repositório
-2. Configuração do Node.js no ambiente de execução
-3. Instalação das dependências com `npm ci`
-4. Execução dos testes com `npm test`
-5. Geração de relatório com Mochawesome
-6. Armazenamento do relatório como artifact na pipeline
+1. Checkout do código do repositório, garantindo a versão mais recente do projeto.
+2. Configuração do Node.js no ambiente de execução.
+3. Instalação das dependências com `npm ci`, garantindo que todas as dependências sejam instaladas exatamente conforme definido no arquivo `package-lock.json`, tornando a execução reproduzível e consistente.
+4. Execução dos testes automatizados com `npm test`, comando definido no arquivo `package.json` para executar os testes com Mocha utilizando o reporter Mochawesome, responsável por gerar o relatório de execução.
+5. Geração do relatório de testes nos formatos HTML e JSON.
+6. Armazenamento do relatório como artifact na pipeline para consulta e download após a execução.
 
 ---
 
 ## Relatório de testes
 
-Os testes são executados com Mocha e o Mochawesome gera um relatório em formato HTML e JSON.
+O Mochawesome gera automaticamente relatórios nos formatos HTML e JSON após a execução dos testes.
 
-Esse relatório é armazenado como artifact na execução do GitHub Actions, permitindo sua consulta após a execução da pipeline.
+Esses relatórios são armazenados como artifact no GitHub Actions, permitindo sua consulta após a execução da pipeline.
 
 ---
 
